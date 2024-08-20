@@ -5,6 +5,10 @@ from langchain_community.retrievers import PineconeHybridSearchRetriever
 from pinecone import Pinecone, ServerlessSpec
 from langchain_huggingface import HuggingFaceEmbeddings
 from pinecone_text.sparse import BM25Encoder
+import nltk
+
+# Download the Punkt tokenizer for NLTK
+nltk.download("punkt")
 
 # Load environment variables
 load_dotenv()
@@ -65,12 +69,11 @@ retriever = PineconeHybridSearchRetriever(
 retriever.add_texts(sentences)
 
 # Streamlit UI
-st.title("Chat-Mate...Hybrid Search🔍")
-st.write("This application uses hybrid search with Pinecone and BM25 encoding.")
-st.write("Enter a query to search through the stored sentences.")
+st.title("🔍 Hybrid Search with Pinecone and BM25")
+st.write("This application uses hybrid search with Pinecone and BM25 encoding. Enter a query to search through the stored sentences.")
 
 # User input
-query = st.text_input("Enter your query:")
+query = st.text_input("Enter your query:", placeholder="What city did I visit recently?")
 
 # Search and display the results
 if st.button("Search"):
@@ -86,4 +89,3 @@ if st.button("Search"):
             st.error(f"An error occurred: {str(e)}")
     else:
         st.warning("Please enter a query to search.")
-
